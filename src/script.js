@@ -1,6 +1,32 @@
 document.addEventListener('DOMContentLoaded', () => {
     const generateBtn = document.getElementById('generate-btn');
     const ballContainer = document.getElementById('ball-container');
+    const themeToggle = document.getElementById('theme-toggle');
+
+    // 다크모드 초기 설정 (로컬 스토리지 확인 또는 시스템 설정 확인)
+    const currentTheme = localStorage.getItem('theme') || 
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    
+    if (currentTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        themeToggle.textContent = '☀️';
+    }
+
+    // 다크모드 토글 이벤트
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        let theme = 'light';
+        
+        if (document.body.classList.contains('dark-mode')) {
+            theme = 'dark';
+            themeToggle.textContent = '☀️';
+        } else {
+            themeToggle.textContent = '🌙';
+        }
+        
+        // 사용자 설정 저장
+        localStorage.setItem('theme', theme);
+    });
 
     // 번호에 따른 색상 클래스 반환 함수
     function getBallColorClass(num) {
